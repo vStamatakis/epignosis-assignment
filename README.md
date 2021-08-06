@@ -6,10 +6,10 @@ npm install
 ```
 ## Add more npm's you going to need
 ```
+npm i vue-router
 npm i vue-axios
 npm i vuejs-datepicker
 npm i moment
-
 ```
 
 ### Compiles and hot-reloads for development
