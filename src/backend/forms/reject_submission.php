@@ -1,0 +1,60 @@
+<?php
+session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+ini_set("mail.log", "/tmp/mail.log");
+ini_set("mail.add_x_header", TRUE);
+error_reporting(E_ALL);
+include 'cors.php';
+
+
+$db = mysqli_connect('localhost', 'root', '', 'db_epignosis');
+
+$id = $_SESSION['id'];
+
+$request_query = "SELECT email FROM users WHERE id = $id ";
+$results = $db->query($request_query);
+$users = $results->fetch_assoc(); 
+$email = $users['email'];
+
+$date_submitted_query = "SELECT date_submitted FROM dates WHERE `user_id` = $id ";
+$results = $db->query($date_submitted_query);
+$user = $results->fetch_assoc(); 
+$date_submitted = $user['date_submitted'];
+
+$status = 'rejected';
+$sql = "UPDATE dates SET `status` = '".$status."' WHERE `user_id` = $id AND `date_submitted` = $date_submitted ";
+mysqli_query($db, $sql);
+
+
+$to = $email;
+
+
+$subject = 'Vacation request rejected';
+
+
+$message = '
+<html>
+<head>
+  <title>Vacation request rejected</title>
+</head>
+<body>
+      <p>“D​ear employee, your supervisor has rejected
+       your application submitted on "'.$date_submitted.'".”​</p>
+</body>
+</html>
+';
+
+
+$headers  = 'MIME-Version: 1.0' . "\r\n";
+$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+$headers = array("From: vstamatakis@outlook.com",
+    "Reply-To: vstamatakis@outlook.com", 
+    "X-Mailer: PHP/" . PHP_VERSION
+);
+$headers = implode("\r\n", $headers);
+
+mail($to, $subject, $message, $headers);
+
+?>
