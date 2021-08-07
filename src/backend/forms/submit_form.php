@@ -52,6 +52,12 @@ if (isset($_POST['submit'])) {
     }
     
     $days_requested = dateDiff($from, $until);
+
+    if($days_requested <= 0){
+        $response['type'] = 'error';
+        $response['message'] = 'The days cannot be less than 0';
+        exit;
+    }
     
     $stmt = "INSERT INTO dates (`user_id`, `vacation_start`, `vacation_end`, `reason`, `date_submitted`, `status`, `days_requested`) 
         VALUES('" . $user_id . "', '" . $vacation_start . "', '" . $vacation_end . "', '" . $reason . "', '" . $dateSubmitted . "' , '" . $status . "', '" . $days_requested . "')";
