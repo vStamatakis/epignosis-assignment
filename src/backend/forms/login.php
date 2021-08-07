@@ -12,7 +12,8 @@ $SignIn = '';
 
 $response = [
   'type' => 'error',
-  'message' => 'wrong_data'
+  'message' => 'wrong_data',
+  'user_type' => 'undefined'
 ];
 
 $db = mysqli_connect('localhost', 'root', '', 'db_epignosis');
@@ -35,20 +36,22 @@ if (isset($_POST['SignIn'])) {
         if ($count == 1) {
             $response['type'] = 'success';
             $response['message'] = 'Loggin in';
-            $id_query            = "SELECT id FROM users WHERE email = '" . $email . "' ";
+            $id_query            = "SELECT id, user_type FROM users WHERE email = '" . $email . "' ";
             $result              = $db->query($id_query);
             $user                = $result->fetch_assoc();
             $_SESSION['id']      = $user['id'];
             $response['type'] = 'success';
             $response['message'] = 'login';
+            $response['user_type'] = $user['user_type'];
         } else {
             $response['type'] = 'error';
             $response['message'] = 'Invalid email or password';
         }
     }
     
-    else {
-        echo "ERROR";
+    else{
+        $response['type'] = 'error';
+        $response['message'] = 'Invalid email or password';
     }
     
 }

@@ -7,6 +7,11 @@ ini_set("mail.add_x_header", TRUE);
 error_reporting(E_ALL);
 include 'cors.php';
 
+$response = [
+    'type' => 'error',
+    'message' => 'wrong_data'
+  ];
+
 // initializing variables
 $from          = '';
 $until         = '';
@@ -14,9 +19,9 @@ $reason        = '';
 $submit        = '';
 $dateSubmitted = '';
 
-$response["success"] = false;
 
 $db = mysqli_connect('localhost', 'root', '', 'db_epignosis');
+
 
 if (isset($_POST['submit'])) {
     //   $user_id = mysqli_real_escape_string($db, $_POST['user_id']);
@@ -25,6 +30,13 @@ if (isset($_POST['submit'])) {
     $reason        = mysqli_real_escape_string($db, $_POST['reason']);
     $dateSubmitted = mysqli_real_escape_string($db, $_POST['dateSubmitted']);
     
+    if($from == '' || $until == '' || $reason == ''){
+        $response['type'] = 'error';
+        $response['message'] = 'something is wrong';
+        exit;
+    }
+
+
     $vacation_start = $from;
     $vacation_end   = $until;
     $user_id        = $_SESSION['id'];
@@ -98,7 +110,13 @@ if (isset($_POST['submit'])) {
     
     
     mail($to, $subject, $message, $headers);
+    $response['type'] = 'success';
+    $response['message'] = 'Mail sent';
 }
+else{
 
+    $response['type'] = 'error';
+    $response['message'] = 'something is wrong';
+}
 echo json_encode($response);
 ?>

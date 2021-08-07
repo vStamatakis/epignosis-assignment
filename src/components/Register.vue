@@ -10,7 +10,7 @@
             v-model="fname"
             required
           />
-          <input name="lname" placeholder="Last Name" v-model="lname" />
+          <input name="lname" placeholder="Last Name" v-model="lname" required/>
           <input
             type="email"
             name="email"
@@ -84,14 +84,15 @@ export default {
       form.append("pass", this.pass);
       form.append("passConfirm", this.passConfirm);
       form.append("user_type", this.user_type);
-      axios.post("http://localhost/forms/register.php", form).then(() => {
-        this.fname = "";
-        this.lname = "";
-        this.email = "";
-        this.pass = "";
-        this.passConfirm = "";
-        router.push({ path: "/" });
-      });
+      axios.post("http://localhost/forms/register.php", form)
+      .then(response =>  {
+          if(response.data.type == 'success'){
+            router.push({ path: "/" });
+          }
+          else{
+            alert("Something is wrong.");
+          }
+        });
     },
   },
 };

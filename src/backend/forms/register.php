@@ -32,6 +32,13 @@ if (isset($_POST['create'])) {
     $pass        = mysqli_real_escape_string($db, $_POST['pass']);
     $passConfirm = mysqli_real_escape_string($db, $_POST['passConfirm']);
     $user_type   = mysqli_real_escape_string($db, $_POST['user_type']);
+
+    if($fname == '' || $lname == '' || $email == '' || $pass == '' || $passConfirm == '' || $user_type == ''){
+        $response['type'] = 'error';
+        $response['message'] = 'something is wrong';
+        exit;
+    }
+
     
     if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
       exit('Invalid email address');

@@ -58,7 +58,7 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-
+import router from "@/router";
 Vue.use(VueAxios, axios);
 export default {
   name: "Edit_Users",
@@ -91,10 +91,13 @@ export default {
         .post("http://localhost/forms/update_user.php", form, {
           withCredentials: true,
         })
-        .then(() => {
-          this.fname = "";
-          this.lname = "";
-          this.email = "";
+        .then(response =>  {
+          if(response.data.type == 'success'){
+            router.push({ path: "/users" });
+          }
+          else{
+            alert("Something is wrong.");
+          }
         });
     },
 

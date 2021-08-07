@@ -54,10 +54,16 @@ export default {
         .post("http://localhost/forms/login.php", form, {
           withCredentials: true,
         })
-        .then(() => {
-          this.email = "";
-          this.pass = "";
-          router.push({ path: "/user_submissions" });
+        .then(response =>  {
+          if(response.data.type == 'success' && response.data.user_type == 1){
+            router.push({ path: "/users" });
+          }
+          if(response.data.type == 'success' && response.data.user_type == 0){
+            router.push({ path: "/user-submissions" });
+          }
+          if(response.data.type == 'error'){
+            alert("Something is wrong. Please try again")
+          }
         });
     },
   },

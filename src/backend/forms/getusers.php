@@ -10,9 +10,7 @@ $user_list = array();
 $response["success"] = false;
   
 $db = mysqli_connect('localhost', 'root', '', 'db_epignosis');
-// $query = "SELECT * FROM users";
-// $result = mysqli_query($db, $query);
-//iterate over all the rows
+
 $response = array();
 $users_query = mysqli_query($db, "SELECT * FROM users") or die ("Unable to collect userlist");
     

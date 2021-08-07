@@ -69,8 +69,13 @@ export default {
         .post("http://localhost/forms/submit_form.php", form, {
           withCredentials: true,
         })
-        .then(() => {
-          router.push({ path: "/user_submissions" });
+        .then(response =>  {
+          if(response.data.type == 'success'){
+            router.push({ path: "/user_submissions" });
+          }
+          else{
+            alert("Something is wrong. Try again");
+          }
         });
     },
 
