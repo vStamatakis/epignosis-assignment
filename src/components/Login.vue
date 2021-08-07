@@ -59,7 +59,7 @@ export default {
             router.push({ path: "/users" });
           }
           if(response.data.type == 'success' && response.data.user_type == 0){
-            router.push({ path: "/user-submissions" });
+            router.push({ path: "/user_submissions" });
           }
           if(response.data.type == 'error'){
             alert("Something is wrong. Please try again")
@@ -76,8 +76,6 @@ export default {
   margin: 0;
   width: 100%;
   min-height: 100%;
-  /* background: rgb(2,0,36);
-        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(247,183,43,1) 35%, rgba(0,255,162,0.8183648459383753) 100%); */
 }
 
 a {
@@ -98,7 +96,6 @@ a:hover {
   box-shadow: 0 16px 24px 20px rgba(0, 0, 0, 0.2);
   position: relative;
   align-items: center;
-  /* margin-top: 50px; */
 }
 
 .login-title {
