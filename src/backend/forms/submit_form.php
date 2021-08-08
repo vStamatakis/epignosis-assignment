@@ -75,6 +75,8 @@ if (isset($_POST['submit'])) {
     $email        = $users['email'];
 
     $applicant_email = $user['email'];
+    $_SESSION['admin-mail'] = $applicant_email;
+
 
     $to = $email; 
     
@@ -88,10 +90,10 @@ if (isset($_POST['submit'])) {
             <title>Vacation Request</title>
             </head>
             <body>
-            <p>Here is the Request from "' . $user['fname'] . '"</p>
+            <p>Here is the Request from ' . $user['fname'] . '</p>
             <table>
                 <tr>
-                <p>“D​ear supervisor, employee "' . $user['fname'] . '" "' . $user['lname'] . '" requested for some time off, starting on "' . $vacation_start . '" and ending on "' . $vacation_end . '", stating the reason: "' . $reason . '"</p>
+                <p>“D​ear supervisor, employee ' . $user['fname'] . ' ' . $user['lname'] . ' requested for some time off, starting on ' . $vacation_start . ' and ending on ' . $vacation_end . ', stating the reason: ' . $reason . '</p>
                 </tr>
                 <tr>
                 <p>Click on one of the below links to approve or reject the application:”​</p>
@@ -107,15 +109,13 @@ if (isset($_POST['submit'])) {
     $headers = 'MIME-Version: 1.0' . "\r\n";
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
     
-    $headers = array(
-        "From: $applicant_email",
-        "Reply-To: $applicant_email", 
-        "X-Mailer: PHP/" . PHP_VERSION
-    );
-    $headers = implode("\r\n", $headers);
+    $headers .= 'From: '.$applicant_email.' ' . "\r\n" .
+    'Reply-To: '.$applicant_email.' ' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
     
     
     mail($to, $subject, $message, $headers);
+    
     $response['type'] = 'success';
     $response['message'] = 'Mail sent';
 }

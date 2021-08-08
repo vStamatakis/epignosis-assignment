@@ -26,9 +26,8 @@ $status = 'rejected';
 $sql = "UPDATE dates SET `status` = '".$status."' WHERE `user_id` = $id AND `date_submitted` = $date_submitted ";
 mysqli_query($db, $sql);
 
-
+$_SESSION['admin-mail'] = $from; 
 $to = $email;
-
 
 $subject = 'Vacation request rejected';
 
@@ -45,15 +44,12 @@ $message = '
 </html>
 ';
 
-
 $headers  = 'MIME-Version: 1.0' . "\r\n";
 $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
-$headers = array("From: vstamatakis@outlook.com",
-    "Reply-To: vstamatakis@outlook.com", 
-    "X-Mailer: PHP/" . PHP_VERSION
-);
-$headers = implode("\r\n", $headers);
+$headers .= 'From: '.$from.' ' . "\r\n" .
+    'Reply-To: '.$from.' ' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
 
 mail($to, $subject, $message, $headers);
 
